@@ -1,0 +1,113 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <title></title>
+    <!-- <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/css/materialize.min.css"> -->
+    <meta http-equiv="cache-control" content="no-cache" />
+    <meta http-equiv="Pragma" content="no-cache" />
+    <style>
+      table {
+        border-collapse: collapse;
+        margin: 25px 0;
+        font-size: 0.9em;
+        font-family: sans-serif;
+        min-width: 400px;
+        box-shadow: 0 0 20px rgba(0, 0, 0, 0.15);
+      }
+      table thead tr {
+        color: #ffffff;
+        text-align: left;
+      }
+      table th {
+        color: #dddddd;
+        background-color: #0f0f0f;
+        padding: 12px 15px;
+        font-size: 19px;
+        text-align: center;
+      }
+      table td {
+        color: #dddddd;
+        background-color: #242323;
+        padding: 12px 15px;
+        font-size: 20px;
+        text-align: center;
+      }
+      table tbody tr {
+        border-bottom: 1px solid #dddddd;
+      }
+      table tbody tr:nth-of-type(even) {
+        background-color: #f3f3f3;
+      }
+      h2 {
+        color: #dddddd;
+        background-color: #242323;
+        padding: 12px 15px;
+        font-size: 30px;
+        text-align: center;
+      }
+      h1{
+        font-size: 50px;
+      }
+    </style>
+  </head>
+  <body>
+    <center>
+      <h1>WHAT'S THE WEATHER LIKE &#127783; ?</h1>
+    </center>
+    <!-- <h3>Latitue: {{ value1 }}</h3>
+    <h3>Longitude: {{ value2 }}</h3> -->
+    <h2>IP Address: {{ value4 }} &nbsp; City: {{ value3 }}</h2>
+    <!-- <h3>City: {{ value3 }}</h3> -->
+    <!-- <iframe src="https://maps.google.com/maps?q={{value1}}, {{value2}}&z=15&output=embed" width=100% height="270" frameborder="0" style="border:0"></iframe> -->
+
+    <div id="my_map_add" style="width: 100%; height: 570px">
+      <script type="text/javascript">
+        function my_map_add() {
+        var myMapCenter = new google.maps.LatLng({{value1}},{{value2}});
+        var myMapProp = {center:myMapCenter, zoom:12, scrollwheel:false, draggable:false, mapTypeId:google.maps.MapTypeId.ROADMAP};
+        var map = new google.maps.Map(document.getElementById("my_map_add"),myMapProp);
+        var marker = new google.maps.Marker({position:myMapCenter});
+        marker.setMap(map);
+        }
+      </script>
+
+      <script src="https://maps.googleapis.com/maps/api/js?key=ENTER YOUR KEY&callback=my_map_add"></script>
+    </div>
+    <table>
+      <thead>
+        <!-- time,temp,mini,maxim,hum,weatherm,weatherd -->
+        <tr>
+          <th>Time</th>
+          <th>Temperature(°C)</th>
+          <th>Minimum Temperature(°C)</th>
+          <th>Maximum Temperature(°C)</th>
+          <th>Humidity(%rh)</th>
+          <th>Wind Speed(m/s)</th>
+          <th>Air Quality Index</th>
+          <th>Weather Group</th>
+          <th>Weather Description</th>
+          <th>Icon</th>
+        </tr>
+      </thead>
+      <tbody>
+        {% for item in context['weatherdesc'] %} {% for j in range(24) %}
+        <tr>
+          <td>{{item[0][j]}}</td>
+          <td>{{item[1][j]}}</td>
+          <td>{{item[2][j]}}</td>
+          <td>{{item[3][j]}}</td>
+          <td>{{item[4][j]}}</td>
+          <td>{{item[5][j]}}</td>
+          <td>{{item[6][j]}}</td>
+          <td>{{item[7][j]}}</td>
+          <td>{{item[8][j]}}</td>
+          <td>
+            <img src=http://openweathermap.org/img/wn/{{item[9][j]}}@2x.png>
+          </td>
+          {% endfor %}
+        </tr>
+        {% endfor %}
+      </tbody>
+    </table>
+  </body>
+</html>
